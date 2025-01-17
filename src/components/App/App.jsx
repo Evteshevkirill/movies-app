@@ -1,9 +1,10 @@
+import MovieCardList from '../MovieCardList/MovieCardList'
 import './App.css'
 
 export default function App() {
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    return (
+    <section className='movie__app'>
+      <MovieCardList />
+    </section>
   )
 }
