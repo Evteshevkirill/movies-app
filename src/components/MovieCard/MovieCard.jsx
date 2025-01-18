@@ -1,28 +1,28 @@
-import { Component } from "react";
-import { format } from "date-fns";
+/* eslint-disable camelcase */
+import { Component } from 'react'
+import { format } from 'date-fns'
 
 import './MovieCard.css'
 
-export class MovieCard extends Component {
-
+export default class MovieCard extends Component {
   textReduction = () => {
-  const { movie } = this.props
-  let cardText = movie.overview
-  if (cardText.length <= 200) return cardText
+    const { movie } = this.props
+    const cardText = movie.overview
+    if (cardText.length <= 200) return cardText
 
-  let trimmed = cardText.substr(0, 200);
-  if (cardText[200] !== ' ') { 
-    trimmed = trimmed.substr(0, Math.min(trimmed.length, trimmed.lastIndexOf(' ')));
+    let trimmed = cardText.substr(0, 200)
+    if (cardText[200] !== ' ') {
+      trimmed = trimmed.substr(0, Math.min(trimmed.length, trimmed.lastIndexOf(' ')))
+    }
+    return `${trimmed}...`
   }
-  return trimmed + '...';
-}
 
   render() {
     const urlImgs = 'https://image.tmdb.org/t/p/w500'
     const { movie } = this.props
-    const { poster_path, title, release_date} = movie
+    const { poster_path, title, release_date } = movie
 
-    return(
+    return (
       <li className="movie__card">
         <div className="poster__wrapper">
           <img className="poster" src={`${urlImgs}${poster_path}`} alt="poster movie" />

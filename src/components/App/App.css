@@ -1,15 +1,17 @@
-body{
-  font-family: "Inter", serif;
+body {
+  font-family: 'Inter', serif;
   font-weight: 400;
   font-size: 12px;
   font-style: normal;
   margin: 0;
   padding: 0;
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
   box-sizing: border-box;
 }
 
-p, h5, li{
+p,
+h5,
+li {
   margin: 0;
   padding: 0;
 }
