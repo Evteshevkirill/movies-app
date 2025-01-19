@@ -1,35 +1,42 @@
-import { Component } from 'react'
+import { useState, useEffect } from 'react'
 
-import getMovies from '../service/getMovies'
 import MovieCardList from '../MovieCardList/MovieCardList'
 import './App.css'
 
-export default class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      movies: [],
-      // eslint-disable-next-line react/no-unused-state
-      error: false,
-      // eslint-disable-next-line react/no-unused-state
-      loading: false,
+export default function App() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
+
+  useEffect(() => {
+    const handleStatusChange = () => {
+      setIsOnline(navigator.onLine)
     }
-  }
 
-  componentDidMount() {
-    getMovies().then((data) => {
-      this.setState({
-        movies: data.results,
-      })
-    })
-  }
+    window.addEventListener('online', handleStatusChange)
 
-  render() {
-    const { movies } = this.state
-    return (
-      <section className="movie__app">
-        <MovieCardList movies={movies} />
-      </section>
-    )
-  }
+    window.addEventListener('offline', handleStatusChange)
+
+    return () => {
+      window.removeEventListener('online', handleStatusChange)
+      window.removeEventListener('offline', handleStatusChange)
+    }
+  }, [isOnline])
+
+  const offline = !isOnline ? (
+    <div className="offline__wrapper">
+      <h1 className="offline">You Are Offline</h1>
+    </div>
+  ) : null
+
+  const online = isOnline ? (
+    <section className="movie__app">
+      <MovieCardList />
+    </section>
+  ) : null
+
+  return (
+    <>
+      {offline}
+      {online}
+    </>
+  )
 }

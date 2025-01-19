@@ -21,3 +21,12 @@ li {
   width: 1010px;
   background-color: #fff;
 }
+
+.offline__wrapper {
+  width: 80%;
+  margin: 80px auto;
+}
+
+.offline {
+  color: red;
+}
