@@ -1,0 +1,18 @@
+.input__search {
+  padding: 10px;
+  width: 80%;
+  margin: 0 auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  outline: none;
+}
+
+.input__search::placeholder {
+  color: #d9d9d9;
+  font-size: 16px;
+  font-family: 'Inter';
+  font-weight: 400;
+  text-align: left;
+}

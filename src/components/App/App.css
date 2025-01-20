@@ -17,6 +17,7 @@ li {
 }
 
 .movie__app {
+  padding-bottom: 30px;
   margin: 0 auto;
   width: 1010px;
   background-color: #fff;

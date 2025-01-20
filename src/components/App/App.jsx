@@ -1,44 +1,39 @@
-import { useState, useEffect } from 'react'
+import { Component } from 'react'
 
-import MovieCardList from '../MovieCardList/MovieCardList'
 import HeaderButtons from '../Header/HeaderButtons/HeaderButtons'
+import HeaderSearch from '../Header/HeaderSearch/HeaderSearch'
+
 import './App.css'
 
-export default function App() {
-  const [isOnline, setIsOnline] = useState(navigator.onLine)
-
-  useEffect(() => {
-    const handleStatusChange = () => {
-      setIsOnline(navigator.onLine)
+export default class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      isOnline: navigator.onLine,
     }
+  }
 
-    window.addEventListener('online', handleStatusChange)
+  render() {
+    const { isOnline } = this.state
 
-    window.addEventListener('offline', handleStatusChange)
+    const offline = !isOnline ? (
+      <div className="offline__wrapper">
+        <h1 className="offline">You Are Offline</h1>
+      </div>
+    ) : null
 
-    return () => {
-      window.removeEventListener('online', handleStatusChange)
-      window.removeEventListener('offline', handleStatusChange)
-    }
-  }, [isOnline])
+    const online = isOnline ? (
+      <section className="movie__app">
+        <HeaderButtons />
+        <HeaderSearch />
+      </section>
+    ) : null
 
-  const offline = !isOnline ? (
-    <div className="offline__wrapper">
-      <h1 className="offline">You Are Offline</h1>
-    </div>
-  ) : null
-
-  const online = isOnline ? (
-    <section className="movie__app">
-      <HeaderButtons />
-      <MovieCardList />
-    </section>
-  ) : null
-
-  return (
-    <>
-      {offline}
-      {online}
-    </>
-  )
+    return (
+      <>
+        {offline}
+        {online}
+      </>
+    )
+  }
 }
