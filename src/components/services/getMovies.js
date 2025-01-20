@@ -13,7 +13,7 @@ export default async function getMovies() {
   const res = await fetch(`${apiBase}?query=%27return%27&include_adult=false&language=en-US&page=1`, options)
 
   if (!res.ok) {
-    throw new Error(`Could not fetch, received ${res.url} Ошибка: Статус кода ${res.status}`)
+    throw new Error(`Could not fetch, received ${res.url} Ошибка: Статус код ${res.status}`)
   }
 
   const data = await res.json()

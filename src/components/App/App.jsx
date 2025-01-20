@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import MovieCardList from '../MovieCardList/MovieCardList'
+import HeaderButtons from '../Header/HeaderButtons/HeaderButtons'
 import './App.css'
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
 
   const online = isOnline ? (
     <section className="movie__app">
+      <HeaderButtons />
       <MovieCardList />
     </section>
   ) : null
