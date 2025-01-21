@@ -8,6 +8,21 @@ import './HeaderSearch.css'
 
 export default class HeaderSearch extends Component {
   handleChange = debounce((value) => {
+    if (value === '') {
+      this.setState({
+        movies: [],
+        inputValue: '',
+        error: false,
+      })
+      return
+    }
+
+    this.setState({
+      inputValue: value,
+      error: false,
+      loading: true,
+      page: 1,
+    })
     getMovies(value)
       .then((data) => {
         if (data.length === 0) throw new Error('Не найдено')
@@ -15,7 +30,7 @@ export default class HeaderSearch extends Component {
         this.onLoadingMovies(data)
       })
       .catch((err) => this.onError(err))
-  }, 500)
+  }, 700)
 
   constructor() {
     super()
@@ -25,7 +40,24 @@ export default class HeaderSearch extends Component {
       errorName: null,
       loading: false,
       page: 1,
+      inputValue: '',
     }
+  }
+
+  onCurrentPage = (page) => {
+    this.setState({
+      page,
+      loading: true,
+    })
+
+    const { inputValue } = this.state
+    getMovies(inputValue, page)
+      .then((data) => {
+        if (data.length === 0) throw new Error('Не найдено')
+
+        this.onLoadingMovies(data)
+      })
+      .catch((err) => this.onError(err))
   }
 
   onLoadingMovies(data) {
@@ -52,7 +84,13 @@ export default class HeaderSearch extends Component {
     const content = hasContent ? (
       <>
         <MovieCardList movies={movies} />
-        <Pagination align="center" current={page} defaultCurrent={1} total={50} />
+        <Pagination
+          align="center"
+          current={page}
+          defaultCurrent={1}
+          total={500}
+          onChange={(currentPage) => this.onCurrentPage(currentPage)}
+        />
       </>
     ) : null
     return (

@@ -1,4 +1,4 @@
-export default function getMovies(value) {
+export default function getMovies(value, page = 1) {
   const apiBase = 'https://api.themoviedb.org/3/search/movie'
 
   const options = {
@@ -10,7 +10,7 @@ export default function getMovies(value) {
     },
   }
 
-  return fetch(`${apiBase}?query=%27${value}%27&include_adult=false&language=en-US&page=1`, options)
+  return fetch(`${apiBase}?query=%27${value}%27&include_adult=false&language=en-US&page=${page}`, options)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`Could not fetch, received ${res.url} Ошибка: Статус код ${res.status}`)
