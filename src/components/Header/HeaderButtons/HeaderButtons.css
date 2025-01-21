@@ -1,9 +1,10 @@
 .header__buttons {
+  margin: 0 auto;
   padding-top: 32px;
   width: 145px;
   display: flex;
   gap: 16px;
-  margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 .header__button {

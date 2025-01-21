@@ -1,4 +1,4 @@
-export default async function getMovies() {
+export default function getMovies(value) {
   const apiBase = 'https://api.themoviedb.org/3/search/movie'
 
   const options = {
@@ -10,12 +10,12 @@ export default async function getMovies() {
     },
   }
 
-  const res = await fetch(`${apiBase}?query=%27return%27&include_adult=false&language=en-US&page=1`, options)
-
-  if (!res.ok) {
-    throw new Error(`Could not fetch, received ${res.url} Ошибка: Статус код ${res.status}`)
-  }
-
-  const data = await res.json()
-  return data.results
+  return fetch(`${apiBase}?query=%27${value}%27&include_adult=false&language=en-US&page=1`, options)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Could not fetch, received ${res.url} Ошибка: Статус код ${res.status}`)
+      }
+      return res.json()
+    })
+    .then((data) => data.results)
 }

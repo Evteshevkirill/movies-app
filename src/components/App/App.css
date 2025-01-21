@@ -20,6 +20,7 @@ li {
   margin: 0 auto;
   width: 1010px;
   background-color: #fff;
+  padding-bottom: 20px;
 }
 
 .offline__wrapper {
