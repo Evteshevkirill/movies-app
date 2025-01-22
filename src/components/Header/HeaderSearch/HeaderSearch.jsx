@@ -7,7 +7,7 @@ import MovieCardList from '../../MovieCardList/MovieCardList'
 import './HeaderSearch.css'
 
 export default class HeaderSearch extends Component {
-  handleChange = debounce((value) => {
+  getMoviesList = debounce((value) => {
     if (value === '') {
       this.setState({
         movies: [],
@@ -23,6 +23,7 @@ export default class HeaderSearch extends Component {
       loading: true,
       page: 1,
     })
+
     getMovies(value)
       .then((data) => {
         if (data.length === 0) throw new Error('Не найдено')
@@ -99,7 +100,7 @@ export default class HeaderSearch extends Component {
           type="text"
           className="input__search"
           placeholder="Type of search..."
-          onChange={(e) => this.handleChange(e.target.value)}
+          onChange={(e) => this.getMoviesList(e.target.value)}
         />
         {content}
         {errMessage}
