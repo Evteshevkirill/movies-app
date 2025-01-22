@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { format } from 'date-fns'
+// import { format } from 'date-fns'
 
 import './MovieCard.css'
 
@@ -28,7 +28,7 @@ export default function MovieCard(props) {
       </div>
       <div className="movies__body">
         <h5 className="movie__title">{title}</h5>
-        <p className="movie__date">{format(new Date(release_date), 'PPP')}</p>
+        <p className="movie__date">{release_date}</p>
         <div className="movie__genre">
           <p className="movie__genre-text">Action</p>
           <p className="movie__genre-text">Drama</p>

@@ -7,32 +7,6 @@ import MovieCardList from '../../MovieCardList/MovieCardList'
 import './HeaderSearch.css'
 
 export default class HeaderSearch extends Component {
-  getMoviesList = debounce((value) => {
-    if (value === '') {
-      this.setState({
-        movies: [],
-        inputValue: '',
-        error: false,
-      })
-      return
-    }
-
-    this.setState({
-      inputValue: value,
-      error: false,
-      loading: true,
-      page: 1,
-    })
-
-    getMovies(value)
-      .then((data) => {
-        if (data.length === 0) throw new Error('Не найдено')
-
-        this.onLoadingMovies(data)
-      })
-      .catch((err) => this.onError(err))
-  }, 700)
-
   constructor() {
     super()
     this.state = {
@@ -45,27 +19,13 @@ export default class HeaderSearch extends Component {
     }
   }
 
-  onCurrentPage = (page) => {
-    this.setState({
-      page,
-      loading: true,
-    })
-
-    const { inputValue } = this.state
-    getMovies(inputValue, page)
-      .then((data) => {
-        if (data.length === 0) throw new Error('Не найдено')
-
-        this.onLoadingMovies(data)
-      })
-      .catch((err) => this.onError(err))
-  }
-
-  onLoadingMovies(data) {
-    this.setState({
-      movies: data,
-      loading: false,
-    })
+  componentDidUpdate(prevState) {
+    const { inputValue, page } = this.state
+    if (inputValue === '') {
+      return
+    }
+    if (prevState !== inputValue) this.getMoviesList(inputValue)
+    if (prevState !== page) this.onCurrentPage(page)
   }
 
   onError(err) {
@@ -75,6 +35,60 @@ export default class HeaderSearch extends Component {
       loading: false,
     })
   }
+
+  onLoadingMovies(data) {
+    this.setState({
+      movies: data,
+      loading: false,
+    })
+  }
+
+  onChangeInput = (value) => {
+    this.setState({
+      inputValue: value,
+      error: false,
+      loading: true,
+      page: 1,
+    })
+  }
+
+  onChangePage = (page) => {
+    this.setState({
+      page,
+      loading: true,
+    })
+  }
+
+  onCurrentPage = debounce((page) => {
+    const { inputValue } = this.state
+
+    getMovies(inputValue, page)
+      .then((data) => {
+        if (data.length === 0) throw new Error('Не найдено')
+
+        this.onLoadingMovies(data)
+      })
+      .catch((err) => this.onError(err))
+  }, 700)
+
+  getMoviesList = debounce((value) => {
+    if (value === '') {
+      this.setState({
+        movies: [],
+        inputValue: '',
+        error: false,
+      })
+    }
+    const { page } = this.state
+
+    getMovies(value, page)
+      .then((data) => {
+        if (value === '') return
+        if (data.length === 0) throw new Error('Не найдено')
+        this.onLoadingMovies(data)
+      })
+      .catch((err) => this.onError(err))
+  }, 700)
 
   render() {
     const { error, errorName, loading, movies, page } = this.state
@@ -90,7 +104,7 @@ export default class HeaderSearch extends Component {
           current={page}
           defaultCurrent={1}
           total={500}
-          onChange={(currentPage) => this.onCurrentPage(currentPage)}
+          onChange={(currentPage) => this.onChangePage(currentPage)}
         />
       </>
     ) : null
@@ -100,7 +114,7 @@ export default class HeaderSearch extends Component {
           type="text"
           className="input__search"
           placeholder="Type of search..."
-          onChange={(e) => this.getMoviesList(e.target.value)}
+          onChange={(e) => this.onChangeInput(e.target.value)}
         />
         {content}
         {errMessage}

@@ -1,4 +1,4 @@
-export default function getMovies(value, page = 1) {
+export default function getMovies(value, page) {
   const apiBase = 'https://api.themoviedb.org/3/search/movie'
 
   const options = {
