@@ -21,9 +21,6 @@ export default class HeaderSearch extends Component {
 
   componentDidUpdate(prevState) {
     const { inputValue, page } = this.state
-    if (inputValue === '') {
-      return
-    }
     if (prevState !== inputValue) this.getMoviesList(inputValue)
     if (prevState !== page) this.onCurrentPage(page)
   }
@@ -62,6 +59,8 @@ export default class HeaderSearch extends Component {
   onCurrentPage = debounce((page) => {
     const { inputValue } = this.state
 
+    if (inputValue === '') return
+
     getMovies(inputValue, page)
       .then((data) => {
         if (data.length === 0) throw new Error('Не найдено')
@@ -72,14 +71,15 @@ export default class HeaderSearch extends Component {
   }, 700)
 
   getMoviesList = debounce((value) => {
-    if (value === '') {
+    const { page, inputValue } = this.state
+    if (inputValue === '') {
       this.setState({
         movies: [],
         inputValue: '',
         error: false,
+        loading: false,
       })
     }
-    const { page } = this.state
 
     getMovies(value, page)
       .then((data) => {
