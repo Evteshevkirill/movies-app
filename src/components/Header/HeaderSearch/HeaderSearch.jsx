@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { debounce } from 'lodash'
 import { Alert, Spin, Pagination } from 'antd'
 
-import getMovies from '../../services/getMovies'
+import { getMovies, getAllGenre } from '../../services/getServices'
 import MovieCardList from '../../MovieCardList/MovieCardList'
 import './HeaderSearch.css'
 
@@ -17,6 +17,12 @@ export default class HeaderSearch extends Component {
       page: 1,
       inputValue: '',
     }
+  }
+
+  componentDidMount() {
+    getAllGenre().then((data) => {
+      localStorage.allGenres = JSON.stringify(data)
+    })
   }
 
   componentDidUpdate(prevState) {
@@ -59,8 +65,6 @@ export default class HeaderSearch extends Component {
   onCurrentPage = debounce((page) => {
     const { inputValue } = this.state
 
-    if (inputValue === '') return
-
     getMovies(inputValue, page)
       .then((data) => {
         if (data.length === 0) throw new Error('Не найдено')
@@ -83,7 +87,6 @@ export default class HeaderSearch extends Component {
 
     getMovies(value, page)
       .then((data) => {
-        if (value === '') return
         if (data.length === 0) throw new Error('Не найдено')
         this.onLoadingMovies(data)
       })
@@ -91,6 +94,7 @@ export default class HeaderSearch extends Component {
   }, 700)
 
   render() {
+    const allGenres = JSON.parse(localStorage.allGenres)
     const { error, errorName, loading, movies, page } = this.state
 
     const hasContent = !loading && !error && movies.length !== 0
@@ -98,7 +102,7 @@ export default class HeaderSearch extends Component {
     const errMessage = error ? <Alert message={errorName.name} description={errorName.message} type="error" /> : null
     const content = hasContent ? (
       <>
-        <MovieCardList movies={movies} />
+        <MovieCardList movies={movies} allGenres={allGenres} />
         <Pagination
           align="center"
           current={page}
