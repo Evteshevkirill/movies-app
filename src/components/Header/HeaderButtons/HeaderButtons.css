@@ -1,27 +1,38 @@
 .header__buttons {
-  margin: 0 auto;
-  padding-top: 32px;
-  width: 145px;
-  display: flex;
-  gap: 16px;
+  display: inline-block;
+  padding-top: 20px;
   margin-bottom: 20px;
 }
 
+.header__buttons::after {
+  content: '';
+  display: block;
+  border-bottom: 1px solid #e5e5e5;
+}
+
 .header__button {
+  text-align: center;
+  padding-right: 15px;
   font-size: 14px;
   font-family: 'Inter';
   font-weight: 400;
-  line-height: 22px;
-  border: 1px solid #fff;
   background-color: #fff;
+  border: none;
   cursor: pointer;
 }
 
-.header__button:hover {
-  border: 1px solid #1890ff;
+.header__button:last-child {
+  padding-right: 0;
 }
 
 .active {
   box-shadow: 0 4px 4px 0 #0000 25%;
   color: #1890ff;
+}
+
+.active::after {
+  content: '';
+  display: block;
+  border-bottom: 3px solid #1890ff;
+  height: 15px;
 }

@@ -3,6 +3,7 @@ body {
   font-weight: 400;
   font-size: 12px;
   font-style: normal;
+  text-align: center;
   margin: 0;
   padding: 0;
   background-color: #e5e5e5;
@@ -12,7 +13,9 @@ body {
 
 p,
 h5,
-li {
+li,
+button,
+ul {
   margin: 0;
   padding: 0;
 }

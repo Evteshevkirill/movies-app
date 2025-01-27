@@ -6,6 +6,7 @@ import './App.css'
 
 export default function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine)
+  // const [toggleTab, setToggleTab] = useState('search')
 
   useEffect(() => {
     const handleStatusChange = () => {

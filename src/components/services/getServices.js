@@ -1,4 +1,5 @@
-export function getMovies(value, page) {
+// Поиск фильмов
+function getMovies(value, page) {
   const apiBase = 'https://api.themoviedb.org/3/search/movie'
 
   const options = {
@@ -20,7 +21,8 @@ export function getMovies(value, page) {
     .then((data) => data.results)
 }
 
-export function getAllGenre() {
+// Получение всех жанров
+function getAllGenre() {
   const apiBase = 'https://api.themoviedb.org/3/'
 
   const options = {
@@ -39,3 +41,26 @@ export function getAllGenre() {
     })
     .then((data) => data.genres)
 }
+
+// Гостевая сессия
+function guestSession() {
+  const url = 'https://api.themoviedb.org/3/authentication/guest_session/new'
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMGViYWJhYjVjODYyMjc5ZGRlNDgwNjMwNGU5MTVmMCIsIm5iZiI6MTczNzAxMDc1My42OCwic3ViIjoiNjc4OGFlNDE5NDdiMTlmNzhiOTc3NWRiIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.TDbWz6JUhQEFyn8_q7ytX3lDn19-fPlxwwUttCWsIMI',
+    },
+  }
+
+  return fetch(url, options)
+    .then((res) => res.json())
+    .then((json) => {
+      return json.guest_session_id
+    })
+}
+
+// function addRatingMovie(id, count) {}
+
+export { getMovies, getAllGenre, guestSession }
