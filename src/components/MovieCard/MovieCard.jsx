@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import { Rate } from 'antd'
 import { round } from 'lodash'
 
+import { postRateMovie } from '../services/getServices'
 import './MovieCard.css'
 
 // Обрезание текста описания
@@ -43,7 +44,7 @@ export default function MovieCard(props) {
         </div>
         <p className="movie__card-text">{textReduction(overview)}</p>
         <div className="rate">
-          <Rate allowHalf count={10} defaultValue={0} />
+          <Rate allowHalf count={10} defaultValue={0} onChange={(current) => postRateMovie(id, current)} />
         </div>
       </div>
     </li>
