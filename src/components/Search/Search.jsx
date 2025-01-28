@@ -2,11 +2,11 @@ import { Component } from 'react'
 import { debounce } from 'lodash'
 import { Alert, Spin, Pagination } from 'antd'
 
-import { getMovies, getAllGenre, guestSession } from '../../services/getServices'
-import MovieCardList from '../../MovieCardList/MovieCardList'
-import './HeaderSearch.css'
+import { getMovies } from '../services/getServices'
+import MovieCardList from '../MovieCardList/MovieCardList'
+import './Search.css'
 
-export default class HeaderSearch extends Component {
+export default class Search extends Component {
   constructor() {
     super()
     this.state = {
@@ -17,17 +17,6 @@ export default class HeaderSearch extends Component {
       page: 1,
       inputValue: '',
     }
-  }
-
-  // Запускаем гостевую сеесию и получаем ID сессии
-  // Получаем список всех жанров
-  componentDidMount() {
-    guestSession().then((id) => {
-      localStorage.sessionId = id
-    })
-    getAllGenre().then((data) => {
-      localStorage.allGenres = JSON.stringify(data)
-    })
   }
 
   onError(err) {

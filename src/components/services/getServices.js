@@ -31,14 +31,16 @@ function getAllGenre() {
     .then((data) => data.genres)
 }
 
-// Гостевая сессия
+// Создание гостевой сессии
 function guestSession() {
   return fetch(`${apiBase}authentication/guest_session/new`, options)
     .then((res) => res.json())
     .then((json) => json.guest_session_id)
 }
 
+// Отправка оценки фильма на сервер
 function postRateMovie(id, rate) {
+  localStorage.setItem(id, rate)
   const postOptions = {
     method: 'POST',
     headers: {
@@ -54,19 +56,26 @@ function postRateMovie(id, rate) {
     }),
   }
 
-  fetch(`${apiBase}movie/${id}/rating`, postOptions)
-    .then((res) => res.json())
-    .then((res) => console.log(res))
-    .catch((err) => console.error(err))
+  fetch(`${apiBase}movie/${id}/rating?guest_session_id=${localStorage.sessionId}`, postOptions).then((res) => {
+    if (res.success) throw new Error('Ошибка отправки оценки')
+    return res.json()
+  })
 }
 
-function getRateMovies() {
-  const id = localStorage.sessionId
-
-  fetch(`${apiBase}guest_session/${id}/rated/movies?language=en-US&page=1&sort_by=created_at.asc`, options)
+// Получение всех оцененных фильмов
+function getRateMovies(page) {
+  return fetch(
+    `${apiBase}guest_session/${localStorage.sessionId}/rated/movies?language=en-US&page=${page}&sort_by=created_at.asc`,
+    options
+  )
     .then((res) => res.json())
-    .then((data) => console.log(data.results))
-    .catch((err) => console.error(err))
+    .then((data) => {
+      console.log(data)
+
+      return data
+    })
 }
+
+// Удаление оцененных фильмов
 
 export { getMovies, getAllGenre, guestSession, postRateMovie, getRateMovies }

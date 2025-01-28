@@ -44,7 +44,7 @@ export default function MovieCard(props) {
         </div>
         <p className="movie__card-text">{textReduction(overview)}</p>
         <div className="rate">
-          <Rate allowHalf count={10} defaultValue={0} onChange={(current) => postRateMovie(id, current)} />
+          <Rate allowHalf count={10} onChange={(current) => postRateMovie(id, current)} />
         </div>
       </div>
     </li>
