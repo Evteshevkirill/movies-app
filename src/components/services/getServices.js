@@ -68,7 +68,7 @@ function getRateMovies(page = 1) {
       if (!res.ok) throw new Error('Еще нет оцененных фильмов')
       return res.json()
     })
-    .then((data) => data.results)
+    .then((data) => data)
 }
 
 // Удаление оцененных фильмов

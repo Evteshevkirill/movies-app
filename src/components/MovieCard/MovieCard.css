@@ -3,7 +3,8 @@
   text-align: left;
   display: flex;
   gap: 20px;
-  width: 500px;
+  width: 495px;
+  height: 280px;
   box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
   cursor: pointer;
 }
@@ -47,8 +48,11 @@
 }
 
 .poster {
+  display: block;
   max-width: 180px;
-  height: 100%;
+  max-height: 280px;
+  width: auto;
+  height: auto;
 }
 
 .movie__title {
@@ -87,4 +91,19 @@
 .rate {
   position: absolute;
   bottom: 15px;
+}
+
+@media (max-width: 1099px) {
+  .movie__card {
+    max-width: 390px;
+  }
+
+  .movie__title {
+    font-size: 12px;
+  }
+
+  .poster {
+    width: auto;
+    height: auto;
+  }
 }

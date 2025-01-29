@@ -52,13 +52,6 @@ export default class Search extends Component {
     })
   }
 
-  onChangePage = (page) => {
-    this.setState({
-      page,
-      loading: true,
-    })
-  }
-
   // Смена страниц
   onCurrentPage = debounce((page) => {
     const { inputValue } = this.state
@@ -68,7 +61,10 @@ export default class Search extends Component {
       return
     }
 
-    this.onChangePage(page)
+    this.setState({
+      page,
+      loading: true,
+    })
 
     getMovies(inputValue, page)
       .then((data) => {

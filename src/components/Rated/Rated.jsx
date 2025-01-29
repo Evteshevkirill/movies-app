@@ -8,6 +8,7 @@ export default class Rated extends Component {
   constructor() {
     super()
     this.state = {
+      response: {},
       movies: [],
       error: false,
       errorName: null,
@@ -21,7 +22,7 @@ export default class Rated extends Component {
 
     getRateMovies(page)
       .then((data) => {
-        this.setState({ movies: data, loading: false })
+        this.setState({ response: data, movies: data.results, loading: false })
       })
       .catch((err) => this.onError(err))
   }
@@ -31,29 +32,28 @@ export default class Rated extends Component {
       error: true,
       errorName: err,
       loading: false,
-      page: 1,
-    })
-  }
-
-  onChangePage = (page) => {
-    this.setState({
-      page,
-      loading: true,
     })
   }
 
   onCurrentPage = (page) => {
-    this.onChangePage(page)
+    this.setState({
+      page,
+      loading: true,
+    })
 
     getRateMovies(page)
       .then((data) => {
-        this.setState({ movies: data, loading: false })
+        this.setState({
+          movies: data.results,
+          response: data,
+          loading: false,
+        })
       })
       .catch((err) => this.onError(err))
   }
 
   render() {
-    const { error, errorName, loading, movies, page } = this.state
+    const { error, errorName, loading, movies, page, response } = this.state
 
     const hasContent = !loading && !error
     const spin = loading ? <Spin className="spinner" /> : null
@@ -65,7 +65,7 @@ export default class Rated extends Component {
           align="center"
           current={page}
           defaultCurrent={1}
-          total={50}
+          total={response.total_pages * 10}
           onChange={(currentPage) => this.onCurrentPage(currentPage)}
         />
       </>

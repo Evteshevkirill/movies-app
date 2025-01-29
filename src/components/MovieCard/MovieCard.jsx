@@ -19,6 +19,13 @@ function textReduction(overview) {
   return `${trimmed}...`
 }
 
+// Форматирование даты релиза
+function formatDate(date) {
+  if (Number.isNaN(Date.parse(date))) return null
+
+  return format(new Date(date), 'PPP')
+}
+
 export default function MovieCard(props) {
   const urlImgs = 'https://image.tmdb.org/t/p/w500'
 
@@ -28,9 +35,7 @@ export default function MovieCard(props) {
 
   return (
     <li key={id} className="movie__card">
-      <div className="poster__wrapper">
-        <img className="poster" src={`${urlImgs}${poster_path}`} alt="poster movie" />
-      </div>
+      <img className="poster" src={`${urlImgs}${poster_path}`} alt="poster movie" />
       <div className="movie__body">
         <div className="movie_card-header">
           <h5 className="movie__title">{title}</h5>
@@ -38,7 +43,7 @@ export default function MovieCard(props) {
         <div className="movie__rating-wrapper">
           <MovieRating rate={vote_average} />
         </div>
-        <p className="movie__date">{format(new Date(release_date), 'PPP')}</p>
+        <p className="movie__date">{formatDate(release_date)}</p>
         <div className="movie__genre">
           <GenreMovie movieGenre={genre_ids} allGenres={allGenres} />
         </div>

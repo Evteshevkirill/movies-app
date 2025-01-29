@@ -35,3 +35,9 @@ ul {
 .offline {
   color: red;
 }
+
+@media (max-width: 1099px) {
+  .movie__app {
+    min-width: 420px;
+  }
+}

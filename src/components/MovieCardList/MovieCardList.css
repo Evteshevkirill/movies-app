@@ -7,3 +7,10 @@
   flex-wrap: wrap;
   gap: 30px;
 }
+
+@media (max-width: 1099px) {
+  .movies__list {
+    padding: 0 15px;
+    justify-content: center;
+  }
+}
