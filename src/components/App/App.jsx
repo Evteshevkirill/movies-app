@@ -19,14 +19,12 @@ export default class App extends Component {
   // Проверяем есть ли интернет
 
   componentDidMount() {
-    const { isOnline } = this.state
-
+    localStorage.clear()
     window.addEventListener('online', this.handleChangeStatusInternet)
 
     window.addEventListener('offline', this.handleChangeStatusInternet)
 
     this.handleChangeStatusInternet()
-    if (!isOnline) return
 
     guestSession().then((id) => {
       localStorage.sessionId = id
@@ -68,7 +66,7 @@ export default class App extends Component {
     ) : null
     const online = isOnline ? (
       <section className="movie__app">
-        <Tabs defaultActiveKey="1" centered items={items} />
+        <Tabs defaultActiveKey="1" centered items={items} destroyInactiveTabPane />
       </section>
     ) : null
     return (

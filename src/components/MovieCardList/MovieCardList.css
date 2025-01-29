@@ -1,8 +1,9 @@
 .movies__list {
   margin: 0 auto;
   margin-bottom: 30px;
+  padding: 0 30px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 30px;
 }

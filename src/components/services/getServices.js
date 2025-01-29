@@ -50,30 +50,25 @@ function postRateMovie(id, rate) {
         'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMGViYWJhYjVjODYyMjc5ZGRlNDgwNjMwNGU5MTVmMCIsIm5iZiI6MTczNzAxMDc1My42OCwic3ViIjoiNjc4OGFlNDE5NDdiMTlmNzhiOTc3NWRiIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.TDbWz6JUhQEFyn8_q7ytX3lDn19-fPlxwwUttCWsIMI',
     },
     body: JSON.stringify({
-      media_type: 'movie',
       media_id: id,
       value: rate,
     }),
   }
 
-  fetch(`${apiBase}movie/${id}/rating?guest_session_id=${localStorage.sessionId}`, postOptions).then((res) => {
-    if (res.success) throw new Error('Ошибка отправки оценки')
-    return res.json()
-  })
+  fetch(`${apiBase}movie/${id}/rating?guest_session_id=${localStorage.sessionId}`, postOptions)
 }
 
 // Получение всех оцененных фильмов
-function getRateMovies(page) {
+function getRateMovies(page = 1) {
   return fetch(
     `${apiBase}guest_session/${localStorage.sessionId}/rated/movies?language=en-US&page=${page}&sort_by=created_at.asc`,
     options
   )
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data)
-
-      return data
+    .then((res) => {
+      if (!res.ok) throw new Error('Еще нет оцененных фильмов')
+      return res.json()
     })
+    .then((data) => data.results)
 }
 
 // Удаление оцененных фильмов

@@ -18,6 +18,7 @@ export default class Rated extends Component {
 
   componentDidMount() {
     const { page } = this.state
+
     getRateMovies(page)
       .then((data) => {
         this.setState({ movies: data, loading: false })
@@ -46,8 +47,6 @@ export default class Rated extends Component {
 
     getRateMovies(page)
       .then((data) => {
-        if (data.results === undefined) throw new Error('Еще нет оцененных фильмов')
-
         this.setState({ movies: data, loading: false })
       })
       .catch((err) => this.onError(err))
@@ -61,7 +60,7 @@ export default class Rated extends Component {
     const errMessage = error ? <Alert message={errorName.name} description={errorName.message} type="error" /> : null
     const content = hasContent ? (
       <>
-        <MovieCardList movies={movies.results} />
+        <MovieCardList movies={movies} />
         <Pagination
           align="center"
           current={page}
