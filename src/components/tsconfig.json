@@ -1,26 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "es6",
     "strict": true,
-    "lib": ["es6", "dom"],
+    "outDir": "./",
+    "allowJs": true,
+    "lib": ["es2016", "dom"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["node"],
+    "jsx": "react",
     "typeRoots": ["./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["node_modules/*"],
+      "@types/*": ["../types/*"]
     },
     "plugins": [
       {
         "name": "@typescript-eslint"
       }
-    ],
-    "jsx": "react"
+    ]
   },
-  "include": ["src", ".d.ts"],
+  "include": ["./**/*", ".d.ts"],
   "exclude": ["node_modules", "dist"]
 }

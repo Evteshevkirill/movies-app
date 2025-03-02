@@ -1,4 +1,3 @@
-import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from 'react/jsx-runtime'
 import React from 'react'
 import { Tabs } from 'antd'
 
@@ -43,27 +42,34 @@ export default class App extends React.Component {
       {
         key: '1',
         label: 'Search',
-        children: _jsx(Search, {}),
+        children: React.createElement(Search, null),
       },
       {
         key: '2',
         label: 'Rated',
-        children: _jsx(Rated, {}),
+        children: React.createElement(Rated, null),
       },
     ]
-    return _jsxs(_Fragment, {
-      children: [
-        !isOnline &&
-          _jsx('div', {
-            className: 'offline__wrapper',
-            children: _jsx('h1', { className: 'offline', children: 'You Are Offline' }),
-          }),
-        isOnline &&
-          _jsx('section', {
-            className: 'movie__app',
-            children: _jsx(Tabs, { defaultActiveKey: '1', centered: true, items, destroyInactiveTabPane: true }),
-          }),
-      ],
-    })
+    return React.createElement(
+      React.Fragment,
+      null,
+      !isOnline &&
+        React.createElement(
+          'div',
+          { className: 'offline__wrapper' },
+          React.createElement('h1', { className: 'offline' }, 'You Are Offline')
+        ),
+      isOnline &&
+        React.createElement(
+          'section',
+          { className: 'movie__app' },
+          React.createElement(Tabs, {
+            defaultActiveKey: '1',
+            centered: true,
+            items,
+            destroyInactiveTabPane: true,
+          })
+        )
+    )
   }
 }

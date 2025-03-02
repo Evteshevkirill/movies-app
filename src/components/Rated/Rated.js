@@ -1,12 +1,11 @@
 /* eslint-disable indent */
-import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from 'react/jsx-runtime'
-import { Component } from 'react'
+import React from 'react'
 import { Alert, Spin, Pagination } from 'antd'
 
 import MovieCardList from '../MovieCardList/MovieCardList'
 import { getRateMovies } from '../services/getServices'
 
-export default class Rated extends Component {
+export default class Rated extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -57,22 +56,24 @@ export default class Rated extends Component {
   render() {
     const { error, errorName, errorMessage, loading, movies, page, response } = this.state
     const hasContent = !loading && !error
-    const spin = loading ? _jsx(Spin, { className: 'spinner' }) : null
-    const errMessage = error ? _jsx(Alert, { message: errorName, description: errorMessage, type: 'error' }) : null
-    const content = hasContent
-      ? _jsxs(_Fragment, {
-          children: [
-            _jsx(MovieCardList, { movies }),
-            _jsx(Pagination, {
-              align: 'center',
-              current: page,
-              defaultCurrent: 1,
-              total: response.total_pages * 10,
-              onChange: (currentPage) => this.onCurrentPage(currentPage),
-            }),
-          ],
-        })
+    const spin = loading ? React.createElement(Spin, { className: 'spinner' }) : null
+    const errMessage = error
+      ? React.createElement(Alert, { message: errorName, description: errorMessage, type: 'error' })
       : null
-    return _jsxs(_Fragment, { children: [content, errMessage, spin] })
+    const content = hasContent
+      ? React.createElement(
+          React.Fragment,
+          null,
+          React.createElement(MovieCardList, { movies }),
+          React.createElement(Pagination, {
+            align: 'center',
+            current: page,
+            defaultCurrent: 1,
+            total: response.total_pages * 10,
+            onChange: (currentPage) => this.onCurrentPage(currentPage),
+          })
+        )
+      : null
+    return React.createElement(React.Fragment, null, content, errMessage, spin)
   }
 }
