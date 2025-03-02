@@ -1,17 +1,28 @@
-import { Component } from 'react'
+import React from 'react'
 import { Alert, Spin, Pagination } from 'antd'
 
 import MovieCardList from '../MovieCardList/MovieCardList'
 import { getRateMovies } from '../services/getServices'
 
-export default class Rated extends Component {
-  constructor() {
-    super()
+interface State {
+  response: { total_pages: number }
+  movies: []
+  error: boolean
+  errorName: string
+  errorMessage: string
+  loading: boolean
+  page: number
+}
+
+export default class Rated extends React.Component<Record<string, never>, State> {
+  constructor(props: Record<string, never>) {
+    super(props)
     this.state = {
-      response: {},
+      response: { total_pages: 0 },
       movies: [],
       error: false,
-      errorName: null,
+      errorName: '',
+      errorMessage: '',
       loading: true,
       page: 1,
     }
@@ -27,15 +38,16 @@ export default class Rated extends Component {
       .catch((err) => this.onError(err))
   }
 
-  onError(err) {
+  onError(err: Error) {
     this.setState({
       error: true,
-      errorName: err,
+      errorName: err.name,
+      errorMessage: err.message,
       loading: false,
     })
   }
 
-  onCurrentPage = (page) => {
+  onCurrentPage = (page: number) => {
     this.setState({
       page,
       loading: true,
@@ -53,11 +65,11 @@ export default class Rated extends Component {
   }
 
   render() {
-    const { error, errorName, loading, movies, page, response } = this.state
+    const { error, errorName, errorMessage, loading, movies, page, response } = this.state
 
     const hasContent = !loading && !error
     const spin = loading ? <Spin className="spinner" /> : null
-    const errMessage = error ? <Alert message={errorName.name} description={errorName.message} type="error" /> : null
+    const errMessage = error ? <Alert message={errorName} description={errorMessage} type="error" /> : null
     const content = hasContent ? (
       <>
         <MovieCardList movies={movies} />
@@ -66,7 +78,7 @@ export default class Rated extends Component {
           current={page}
           defaultCurrent={1}
           total={response.total_pages * 10}
-          onChange={(currentPage) => this.onCurrentPage(currentPage)}
+          onChange={(currentPage: number) => this.onCurrentPage(currentPage)}
         />
       </>
     ) : null

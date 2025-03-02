@@ -1,4 +1,5 @@
 const apiBase = 'https://api.themoviedb.org/3/'
+
 const options = {
   method: 'GET',
   headers: {
@@ -7,8 +8,9 @@ const options = {
       'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMGViYWJhYjVjODYyMjc5ZGRlNDgwNjMwNGU5MTVmMCIsIm5iZiI6MTczNzAxMDc1My42OCwic3ViIjoiNjc4OGFlNDE5NDdiMTlmNzhiOTc3NWRiIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.TDbWz6JUhQEFyn8_q7ytX3lDn19-fPlxwwUttCWsIMI',
   },
 }
+
 // Поиск фильмов
-function getMovies(value, page) {
+function getMovies(value: string, page: number) {
   return fetch(`${apiBase}search/movie?query=%27${value}%27&include_adult=false&language=en-US&page=${page}`, options)
     .then((res) => {
       if (!res.ok) {
@@ -18,6 +20,7 @@ function getMovies(value, page) {
     })
     .then((data) => data.results)
 }
+
 // Получение всех жанров
 function getAllGenre() {
   return fetch(`${apiBase}genre/movie/list?language=en`, options)
@@ -27,14 +30,16 @@ function getAllGenre() {
     })
     .then((data) => data.genres)
 }
+
 // Создание гостевой сессии
 function guestSession() {
   return fetch(`${apiBase}authentication/guest_session/new`, options)
     .then((res) => res.json())
     .then((json) => json.guest_session_id)
 }
+
 // Отправка оценки фильма на сервер
-function postRateMovie(id, rate) {
+function postRateMovie(id: string, rate: string) {
   localStorage.setItem(id, rate)
   const postOptions = {
     method: 'POST',
@@ -49,8 +54,10 @@ function postRateMovie(id, rate) {
       value: rate,
     }),
   }
+
   fetch(`${apiBase}movie/${id}/rating?guest_session_id=${localStorage.sessionId}`, postOptions)
 }
+
 // Получение всех оцененных фильмов
 function getRateMovies(page = 1) {
   return fetch(
@@ -63,5 +70,7 @@ function getRateMovies(page = 1) {
     })
     .then((data) => data)
 }
+
 // Удаление оцененных фильмов
+
 export { getMovies, getAllGenre, guestSession, postRateMovie, getRateMovies }
